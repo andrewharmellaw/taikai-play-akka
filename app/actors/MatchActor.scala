@@ -9,13 +9,12 @@ class MatchActor extends Actor {
   var whitepoints = 0
 
   def receive = {
-    case PointScored(player) =>
-      context.system.log.info("Point scored for " + player)
-      if (player == "red")
-        redpoints += 1
-      else if (player == "white")
-        whitepoints += 1
-      sender ! MatchOngoing(redpoints,whitepoints)
+    case PointScored("red") =>
+      redpoints += 1
+      sender ! MatchOngoing(redpoints, whitepoints)
+    case PointScored("white") =>
+      whitepoints += 1
+      sender ! MatchOngoing(redpoints, whitepoints)
     case _ =>
       context.system.log.info("Unknown message")
   }
