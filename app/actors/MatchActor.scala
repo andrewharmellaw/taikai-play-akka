@@ -35,7 +35,7 @@ object MatchOngoing {
   implicit val format: Format[MatchOngoing] = Json.format[MatchOngoing]
 }
 
-case class MatchWon(player: String)
+case class MatchWon(winner: String)
 
 object MatchWon {
   implicit val format: Format[MatchWon] = Json.format[MatchWon]
