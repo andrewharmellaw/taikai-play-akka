@@ -30,32 +30,31 @@ with BeforeAndAfterAll with ImplicitSender {
     expectMsg(MatchOngoing(0,1))
   }
 
-//
-//  test("start should indicated started") {
-//    val actorRef = system.actorOf(Props[CrawlControlActor])
-//    actorRef ! StartCrawling
-//
-//    actorRef ! CrawlState
-//    expectMsg(Started)
-//
-//  }
-//
-//  test("default status should be stopped") {
-//    val actorRef = system.actorOf(Props[CrawlControlActor])
-//    actorRef ! CrawlState
-//    expectMsg(Stopped)
-//  }
-//
-//  test("start then stop should indicate proper states") {
-//    val actorRef = system.actorOf(Props[CrawlControlActor])
-//    actorRef ! StartCrawling
-//    actorRef ! CrawlState
-//    expectMsg(Started)
-//
-//    actorRef ! StopCrawling
-//    actorRef ! CrawlState
-//    expectMsg(Stopped)
-//  }
+  test("red wins when he gets two points") {
+    val actorRef = system.actorOf(Props[MatchActor])
+
+    actorRef ! PointScored("red")
+    expectMsg(MatchOngoing(1,0))
+
+    actorRef ! PointScored("white")
+    expectMsg(MatchOngoing(1,1))
+
+    actorRef ! PointScored("red")
+    expectMsg(MatchWon("red"))
+  }
+
+  test("white wins when he gets two points") {
+    val actorRef = system.actorOf(Props[MatchActor])
+
+    actorRef ! PointScored("white")
+    expectMsg(MatchOngoing(0,1))
+
+    actorRef ! PointScored("red")
+    expectMsg(MatchOngoing(1,1))
+
+    actorRef ! PointScored("white")
+    expectMsg(MatchWon("white"))
+  }
 }
 
 

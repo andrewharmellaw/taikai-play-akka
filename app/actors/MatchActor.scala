@@ -11,10 +11,16 @@ class MatchActor extends Actor {
   def receive = {
     case PointScored("red") =>
       redpoints += 1
-      sender ! MatchOngoing(redpoints, whitepoints)
+      if (redpoints == 2)
+        sender ! MatchWon("red")
+      else
+        sender ! MatchOngoing(redpoints, whitepoints)
     case PointScored("white") =>
       whitepoints += 1
-      sender ! MatchOngoing(redpoints, whitepoints)
+      if (whitepoints == 2)
+        sender ! MatchWon("white")
+      else
+        sender ! MatchOngoing(redpoints, whitepoints)
     case _ =>
       context.system.log.info("Unknown message")
   }
